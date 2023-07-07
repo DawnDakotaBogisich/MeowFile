@@ -15,11 +15,33 @@
       height: 100vh;
     }
 
-    input[type="file"] {
-      padding: 0.5rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 0.25rem;
-      width: 100%;
+    .input-file {
+      display: none;
+    }
+
+    .upload-file {
+      position: relative;
+      width: 230px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      padding: 10px 15px;
+      border-radius: 5px;
+      background-color: rgb(230,230,250);
+      color: #333333;
+      font-size: 14px;
+      text-align: center;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .upload-file:hover {
+      background-color: rgb(220,220,240);
+    }
+
+    .upload-file span {
+      display: inline-block;
+      margin-top: 5px;
     }
 
     button {
@@ -51,8 +73,8 @@
       .text-3xl {
         font-size: 2rem;
       }
-      input[type="file"] {
-        font-size: 1rem;
+      .upload-file {
+        width: 100%;
       }
     }
   </style>
@@ -62,17 +84,17 @@
   <div class="container mx-auto px-4 py-8 max-w-md">
     <h1 class="text-3xl font-bold mb-6 text-center">UPLOAD GAMBAR</h1>
     <form id="uploadForm" class="flex flex-col items-center" action="/upload" method="POST" enctype="multipart/form-data">
-      <div class="mb-4 w-full">
-        <label for="image" class="block text-lg mb-2">Pilih Gambar</label>
-        <input type="file" id="image" name="image" accept="image/*" required>
-      </div>
+      <label for="image" class="upload-file">
+        <input type="file" id="image" name="image" accept="image/*" class="input-file" required>
+        <span>Choose File</span>
+      </label>
       <button type="submit" class="mt-4">Unggah</button>
     </form>
   </div>
 
   <footer>
     Hak Cipta Dilindungi Oleh MakeMeow Community |
-    <a href="/docs.html">Api Documentation</a>
+    <a href="/api-documentation.html">Api Documentation</a>
   </footer>
 
   <script>
@@ -122,20 +144,14 @@
               buttonsStyling: false
             }).then((result) => {
               if (result.isConfirmed) {
-                const tempInput = document.createElement('input');
-                tempInput.value = imageUrl;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
+                navigator.clipboard.writeText(imageUrl);
                 Swal.fire({
-                  title: 'Terjadi kesalahan!',
-                  text: 'Gambar gagal diunggah. Silakan coba lagi.',
-                  icon: 'error',
-                  confirmButtonText: 'TUTUP',
+                  title: 'Link gambar berhasil disalin!',
+                  text: imageUrl,
+                  icon: 'success',
+                  confirmButtonText: 'OK',
                   customClass: {
-                    confirmButton: 'bg-blue-500 hover:bg-blue-600'
+                    confirmButton: 'bg-blue-500 hover:bg-blue-600 mr-2',
                   },
                   buttonsStyling: false
                 });
@@ -144,12 +160,12 @@
           })
           .catch(error => {
             Swal.fire({
-              title: 'Terjadi kesalahan!',
-              text: 'Gambar gagal diunggah. Silakan coba lagi.',
+              title: 'Terjadi kesalahan saat mengunggah gambar!',
+              text: error.message,
               icon: 'error',
-              confirmButtonText: 'TUTUP',
+              confirmButtonText: 'OK',
               customClass: {
-                confirmButton: 'bg-blue-500 hover:bg-blue-600'
+                confirmButton: 'bg-blue-500 hover:bg-blue-600',
               },
               buttonsStyling: false
             });
