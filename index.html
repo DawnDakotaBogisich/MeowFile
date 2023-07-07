@@ -11,7 +11,6 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      padding: 0 1rem; /* Tambahkan padding pada container untuk ruang ekstra di sisi kanan dan kiri */
     }
     input[type="file"] {
       padding: 0.5rem;
@@ -25,7 +24,9 @@
       color: white;
       border-radius: 0.25rem;
       transition: background-color 0.3s ease;
-      width: 100%; /* Ubah lebar tombol menjadi 100% agar memenuhi kontainer */
+    }
+    button:hover {
+      background-color: #1d4ed8;
     }
     footer {
       background-color: #f9fafb;
@@ -34,9 +35,6 @@
       font-size: 12px;
       margin-top: auto;
       width: 100%;
-      position: fixed;
-      bottom: 0; /* Tempelkan footer ke bawah halaman */
-      left: 0;
     }
   </style>
 </head>
