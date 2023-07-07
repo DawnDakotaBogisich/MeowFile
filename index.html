@@ -65,18 +65,29 @@
       width: 100%;
     }
 
-    /* Modifikasi untuk tampilan responsif di mobile */
-    @media (max-width: 640px) {
-      .container {
-        padding: 0 1rem;
-      }
-      .text-3xl {
-        font-size: 2rem;
-      }
-      .upload-file {
-        width: 100%;
-      }
-    }
+/* Modifikasi untuk tampilan responsif di mobile */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1rem;
+  }
+  .text-3xl {
+    font-size: 2rem;
+  }
+  .upload-file {
+    width: calc(100% + 600px);
+    margin-left: -300px;
+    margin-right: -300px;
+  }
+  .upload-file span {
+    margin-left: 300px;
+    margin-right: 300px;
+  }
+  button {
+    width: calc(100% + 600px);
+    margin-left: -300px;
+    margin-right: -300px;
+  }
+}
   </style>
 </head>
 
