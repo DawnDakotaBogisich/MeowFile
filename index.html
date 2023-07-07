@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MeowFile | Free Hosting Image</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    input[type="file"] {
+      padding: 0.5rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.25rem;
+      width: 100%;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #2563eb;
+      color: white;
+      border-radius: 0.25rem;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    footer {
+      background-color: #f9fafb;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 12px;
+      margin-top: auto;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto px-4 py-8 max-w-md">
+    <h1 class="text-3xl font-bold mb-6 text-center">UPLOAD GAMBAR</h1>
+    <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="mb-4">
+        <label for="image" class="block text-lg mb-2">Pilih Gambar</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+      </div>
+      <button type="submit">Unggah</button>
+    </form>
+  </div>
+
+  <footer>
+    Hak Cipta Dilindungi Oleh MakeMeow Community |
+    <a href="/api-documentation.html">Api Documentation</a>
+  </footer>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var form = event.target;
+      var formData = new FormData(form);
+  
+      Swal.fire({
+        title: 'Atur Kadaluwarsa',
+        text: 'Anda ingin mengatur tanggal kadaluwarsa untuk gambar ini?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'ATUR',
+        cancelButtonText: 'TIDAK',
+        customClass: {
+          confirmButton: 'bg-blue-500 hover:bg-blue-600 mr-2',
+          cancelButton: 'bg-gray-400 hover:bg-gray-500'
+        },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const expirationDate = new Date();
+          expirationDate.setDate(expirationDate.getDate() + 7);
+  
+          formData.append('expirationDate', expirationDate.toISOString());
+        }
+  
+        fetch(form.action, {
+          method: form.method,
+          body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+          const imageUrl = data;
+  
+          Swal.fire({
+            title: 'Gambar berhasil diunggah!',
+            icon: 'success',
+            confirmButtonText: 'COPY',
+            showCancelButton: true,
+            cancelButtonText: 'Tutup',
+            customClass: {
+              confirmButton: 'bg-blue-500 hover:bg-blue-600 mr-2',
+              cancelButton: 'bg-gray-400 hover:bg-gray-500'
+            },
+            buttonsStyling: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              const tempInput = document.createElement('input');
+              tempInput.value = imageUrl;
+              document.body.appendChild(tempInput);
+              tempInput.select();
+              document.execCommand('copy');
+              document.body.removeChild(tempInput);
+  
+              Swal.fire({
+                title: 'Tautan berhasil disalin!',
+                text: 'Tautan gambar telah disalin ke clipboard.',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                customClass: {
+                  confirmButton: 'bg-blue-500 hover:bg-blue-600'
+                },
+                buttonsStyling: false
+              });
+            }
+          });
+  
+          form.reset();
+        })
+        .catch(error => {
+          Swal.fire({
+            title: 'Oops...',
+            text: 'Terjadi kesalahan saat mengunggah gambar.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'bg-blue-500 hover:bg-blue-600'
+            },
+            buttonsStyling: false
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

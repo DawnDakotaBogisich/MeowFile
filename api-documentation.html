@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MeowFile | API Documentation</title>
+  <style>
+    body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    p {
+      margin-bottom: 10px;
+    }
+    code {
+      background-color: #f3f4f6;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      background-color: #f3f4f6;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    footer {
+      background-color: #f9fafb;
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      margin-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      p {
+        font-size: 14px;
+      }
+      pre {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>API Documentation</h1>
+  
+  <h2>Check Image Expiration</h2>
+  <p>Endpoint: <code>GET /v1/uploads/:filename</code></p>
+  <p>
+    <strong>Description:</strong> This API endpoint is used to check the expiration status of an image based on its filename.
+  </p>
+  <p>
+    <strong>Parameters:</strong><br>
+    <code>:filename</code> - The filename of the image to check.
+  </p>
+  <p>
+    <strong>Example:</strong><br>
+    <code>GET /v1/uploads/1688694172946.png</code><br>
+    Response: <code>{"filename":"1688694172946.png","expired":"yes"}</code>
+  </p>
+  
+  <h2>Usage Examples</h2>
+  
+  <h3>Node.js</h3>
+  <pre><code>// Using Axios library
+const axios = require('axios');
+
+axios.get('http://file.sazumiviki.me/v1/uploads/1688694172946.png')
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+</code></pre>
+
+  <h3>Python</h3>
+  <pre><code># Using Requests library
+import requests
+
+response = requests.get('http://file.sazumiviki.me/v1/uploads/1688694172946.png')
+if response.status_code == 200:
+  data = response.json()
+  print(data)
+else:
+  print('Error:', response.status_code)
+</code></pre>
+
+  <h3>Ruby</h3>
+  <pre><code># Using Net::HTTP library
+require 'net/http'
+require 'json'
+
+url = URI.parse('http://file.sazumiviki.me/v1/uploads/1688694172946.png')
+http = Net::HTTP.new(url.host, url.port)
+response = http.request(Net::HTTP::Get.new(url.request_uri))
+
+if response.code == '200'
+  data = JSON.parse(response.body)
+  puts data
+else
+  puts 'Error:', response.code
+end
+</code></pre>
+
+  <h3>Golang</h3>
+  <pre><code>package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "http://file.sazumiviki.me/v1/uploads/1688694172946.png"
+
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(string(body))
+}
+</code></pre>
+
+  <p>
+    Note: Make sure to replace the URL and filename with the appropriate values in the code examples.
+  </p>
+
+  <footer>
+    Powered by Sazumi Viki | Hak Cipta Dilindungi Oleh MakeMeow
+  </footer>
+  
+</body>
+</html>
