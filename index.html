@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>MeowFile | Free Hosting Image</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
@@ -12,12 +14,14 @@
       align-items: center;
       height: 100vh;
     }
+
     input[type="file"] {
       padding: 0.5rem;
       border: 2px solid #e2e8f0;
       border-radius: 0.25rem;
       width: 100%;
     }
+
     button {
       padding: 0.5rem 1rem;
       background-color: #2563eb;
@@ -25,9 +29,11 @@
       border-radius: 0.25rem;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #1d4ed8;
     }
+
     footer {
       background-color: #f9fafb;
       padding: 0.5rem;
@@ -36,8 +42,22 @@
       margin-top: auto;
       width: 100%;
     }
+
+    /* Modifikasi untuk tampilan responsif di mobile */
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 1rem;
+      }
+      .text-3xl {
+        font-size: 2rem;
+      }
+      input[type="file"] {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
+
 <body class="bg-gray-100">
   <div class="container mx-auto px-4 py-8 max-w-md">
     <h1 class="text-3xl font-bold mb-6 text-center">UPLOAD GAMBAR</h1>
@@ -60,7 +80,7 @@
       event.preventDefault();
       var form = event.target;
       var formData = new FormData(form);
-  
+
       Swal.fire({
         title: 'Atur Kadaluwarsa',
         text: 'Anda ingin mengatur tanggal kadaluwarsa untuk gambar ini?',
@@ -77,67 +97,66 @@
         if (result.isConfirmed) {
           const expirationDate = new Date();
           expirationDate.setDate(expirationDate.getDate() + 7);
-  
+
           formData.append('expirationDate', expirationDate.toISOString());
         }
-  
+
         fetch(form.action, {
-          method: form.method,
-          body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-          const imageUrl = data;
-  
-          Swal.fire({
-            title: 'Gambar berhasil diunggah!',
-            icon: 'success',
-            confirmButtonText: 'COPY',
-            showCancelButton: true,
-            cancelButtonText: 'Tutup',
-            customClass: {
-              confirmButton: 'bg-blue-500 hover:bg-blue-600 mr-2',
-              cancelButton: 'bg-gray-400 hover:bg-gray-500'
-            },
-            buttonsStyling: false
-          }).then((result) => {
-            if (result.isConfirmed) {
-              const tempInput = document.createElement('input');
-              tempInput.value = imageUrl;
-              document.body.appendChild(tempInput);
-              tempInput.select();
-              document.execCommand('copy');
-              document.body.removeChild(tempInput);
-  
-              Swal.fire({
-                title: 'Tautan berhasil disalin!',
-                text: 'Tautan gambar telah disalin ke clipboard.',
-                icon: 'success',
-                confirmButtonText: 'OK',
-                customClass: {
-                  confirmButton: 'bg-blue-500 hover:bg-blue-600'
-                },
-                buttonsStyling: false
-              });
-            }
+            method: form.method,
+            body: formData
+          })
+          .then(response => response.text())
+          .then(data => {
+            const imageUrl = data;
+
+            Swal.fire({
+              title: 'Gambar berhasil diunggah!',
+              icon: 'success',
+              confirmButtonText: 'COPY',
+              showCancelButton: true,
+              cancelButtonText: 'Tutup',
+              customClass: {
+                confirmButton: 'bg-blue-500 hover:bg-blue-600 mr-2',
+                cancelButton: 'bg-gray-400 hover:bg-gray-500'
+              },
+              buttonsStyling: false
+            }).then((result) => {
+              if (result.isConfirmed) {
+                const tempInput = document.createElement('input');
+                tempInput.value = imageUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                Swal.fire({
+                  title: 'Tautan berhasil disalin!',
+                  text: 'Tautan gambar telah disalin ke clipboard.',
+                  icon: 'success',
+                 confirmButtonText: 'OK',
+                  customClass: {
+                    confirmButton: 'bg-blue-500 hover:bg-blue-600 mr-2'
+                  },
+                  buttonsStyling: false
+                });
+              }
+            });
+          })
+          .catch(error => {
+            Swal.fire({
+              title: 'Terjadi kesalahan!',
+              text: 'Gambar gagal diunggah. Silakan coba lagi.',
+              icon: 'error',
+              confirmButtonText: 'TUTUP',
+              customClass: {
+                confirmButton: 'bg-blue-500 hover:bg-blue-600'
+              },
+              buttonsStyling: false
+            });
           });
-  
-          form.reset();
-        })
-        .catch(error => {
-          Swal.fire({
-            title: 'Oops...',
-            text: 'Terjadi kesalahan saat mengunggah gambar.',
-            icon: 'error',
-            confirmButtonText: 'OK',
-            customClass: {
-              confirmButton: 'bg-blue-500 hover:bg-blue-600'
-            },
-            buttonsStyling: false
-          });
-        });
       });
     });
   </script>
 </body>
+
 </html>
