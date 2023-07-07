@@ -61,12 +61,12 @@
 <body class="bg-gray-100">
   <div class="container mx-auto px-4 py-8 max-w-md">
     <h1 class="text-3xl font-bold mb-6 text-center">UPLOAD GAMBAR</h1>
-    <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
-      <div class="mb-4">
+    <form id="uploadForm" class="flex flex-col items-center" action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="mb-4 w-full">
         <label for="image" class="block text-lg mb-2">Pilih Gambar</label>
         <input type="file" id="image" name="image" accept="image/*" required>
       </div>
-      <button type="submit">Unggah</button>
+      <button type="submit" class="mt-4">Unggah</button>
     </form>
   </div>
 
@@ -130,12 +130,12 @@
                 document.body.removeChild(tempInput);
 
                 Swal.fire({
-                  title: 'Tautan berhasil disalin!',
-                  text: 'Tautan gambar telah disalin ke clipboard.',
-                  icon: 'success',
-                 confirmButtonText: 'OK',
+                  title: 'Terjadi kesalahan!',
+                  text: 'Gambar gagal diunggah. Silakan coba lagi.',
+                  icon: 'error',
+                  confirmButtonText: 'TUTUP',
                   customClass: {
-                    confirmButton: 'bg-blue-500 hover:bg-blue-600 mr-2'
+                    confirmButton: 'bg-blue-500 hover:bg-blue-600'
                   },
                   buttonsStyling: false
                 });
