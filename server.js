@@ -3,6 +3,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const cron = require('node-cron');
+const axios = require('axios');
+const FormData = require('form-data');
 
 const app = express();
 const PORT = 3001;
@@ -18,6 +20,21 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+const uploadImage = async (filePath) => {
+  const form = new FormData();
+  form.append('file', fs.createReadStream(filePath));
+
+  const response = await axios.post('https://telegra.ph/upload', form, {
+    headers: {
+      ...form.getHeaders(),
+    },
+  });
+
+  const imageUrl = `https://file.sazumiviki.me${response.data[0].src}`;
+
+  return imageUrl;
+};
 
 app.delete('/delete/:filename', (req, res) => {
   const filePath = path.join(__dirname, 'uploads', req.params.filename);
@@ -56,8 +73,17 @@ cron.schedule('0 0 * * *', () => {
   });
 });
 
-app.post('/upload', upload.single('image'), (req, res) => {
-  const imageUrl = `http://file.sazumiviki.me/uploads/${req.file.filename}`;
+app.post('/upload', upload.single('image'), async (req, res) => {
+  const filePath = req.file.path;
+  const imageUrl = await uploadImage(filePath);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`Gambar ${req.file.filename} berhasil dihapus`);
+    }
+  });
 
   res.send(imageUrl);
 });
