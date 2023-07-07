@@ -89,7 +89,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Menyajikan file api-documentation.html
 app.get('/api-documentation.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'api-documentation.html'));
 });
