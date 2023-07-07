@@ -89,8 +89,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/api-documentation.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'api-documentation.html'));
+app.get('/docs.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'docs.html'));
 });
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
